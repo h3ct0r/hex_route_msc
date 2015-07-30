@@ -640,6 +640,18 @@ while simulation_done == False:
             out, err = p.communicate()
             outSplit = out.split()
             pass
+        elif (event.type == pygame.KEYDOWN) and (event.key == pygame.K_4):
+            redraw = True
+            new_robot_waypoints = robot_waypoints.copy()
+            new_robot_waypoints['amostral_space_file'] = '/tmp/magnetic_white_noise.np'
+            new_robot_waypoints_json = json.dumps(new_robot_waypoints)
+
+            print "new_robot_waypoints_json:", new_robot_waypoints_json
+
+            p = subprocess.Popen(["python", "/Users/h3ct0r/PycharmProjects/hex_manual_astar/robot_movement_with_sampling_gaussian.py", new_robot_waypoints_json], stdout=subprocess.PIPE)
+            out, err = p.communicate()
+            outSplit = out.split()
+            pass
 
         elif (event.type == pygame.KEYDOWN) and (event.key == pygame.K_ESCAPE):
             redraw = True

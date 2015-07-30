@@ -14,9 +14,9 @@ import re
 import heapq
 import time
 import datetime
+import numpy as np
 
 sys.setrecursionlimit(1500)
-
 
 class Ball(object):
     ball_id = 0
@@ -47,6 +47,7 @@ class Ball(object):
             self.waypoint_list = waypoint_list
 
         self.previous_pos = []
+        self.amostral_samples = np.zeros((600, 800))
 
     def update_actual_pos(self, pos):
 
@@ -240,6 +241,8 @@ robot_battery = json_data['battery_autonomy']
 external_point_list = None
 is_executed_external_point_list = False
 
+amostral_space = z = np.loadtxt(json_data['amostral_space_file'])
+
 robot_battery_trajectory = {}
 if 'robot_battery_trajectory' in json_data:
     robot_battery_trajectory = json_data['robot_battery_trajectory']
@@ -270,19 +273,6 @@ if 'robots_square' in json_data:
 if 'external_points' in json_data:
     external_point_list = json_data['external_points']
 
-'''
-robot_a = Ball(1, start_point, 5, WHITE, [(100, 100), (100, 200), (200, 200), (450, 300)])
-robot_array.append(robot_a)
-
-robot_b = Ball(2, start_point, 5, BLUE, [(400, 400), (30, 32), (45, 50), (210, 240), (350, 300)])
-robot_array.append(robot_b)
-'''
-
-#waypoints_a = [(20, 30), (300, 300)]
-#current_wp_a = waypoints_a.pop(0)
-#current_pos_a = start_point
-
-#background = pygame.image.load("capanema800x600.png")
 background = pygame.image.load("campo_futebol.png")
 backgroundRect = background.get_rect()
 
