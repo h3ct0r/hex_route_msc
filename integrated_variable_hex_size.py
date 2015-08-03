@@ -648,7 +648,7 @@ while simulation_done == False:
 
             print "new_robot_waypoints_json:", new_robot_waypoints_json
 
-            p = subprocess.Popen(["python", "/Users/h3ct0r/PycharmProjects/hex_manual_astar/robot_movement_with_sampling_gaussian.py", new_robot_waypoints_json], stdout=subprocess.PIPE)
+            p = subprocess.Popen(["python", "/Users/h3ct0r/PycharmProjects/hex_route_msc/robot_movement_with_sampling_gaussian.py", new_robot_waypoints_json], stdout=subprocess.PIPE)
             out, err = p.communicate()
             outSplit = out.split()
             pass
@@ -1515,12 +1515,14 @@ while simulation_done == False:
             ollero_json['point_list'] = convex_hull_array
             ollero_json['k_number'] = number_of_robots
             ollero_json['start_point'] = trajectory_start_pt
+            ollero_json['lines_width'] = lines_width
+            ollero_json['amostral_space_file'] = '/tmp/magnetic_white_noise.np'
 
             ollero_json_dump = json.dumps(ollero_json)
 
             print "ollero_json_dump:", ollero_json_dump
 
-            p = subprocess.Popen(["python", "/Users/h3ct0r/PycharmProjects/hex_manual_astar/ollero_implementation.py", ollero_json_dump], stdin=None, stdout=None, stderr=None)
+            p = subprocess.Popen(["python", "/Users/h3ct0r/PycharmProjects/hex_route_msc/ollero_implementation.py", ollero_json_dump], stdin=None, stdout=None, stderr=None)
 
 
             # cascaded_poly_union = ops.unary_union(poly_list)

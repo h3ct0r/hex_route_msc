@@ -30,7 +30,7 @@ def gauss2D(size=10, sigma=1, normalize=255.0):
         pass
     pass
 
-    g *= (normalize/g.max())
+    #g *= (normalize/g.max())
 
     return g
 
@@ -53,21 +53,7 @@ screen = pygame.display.set_mode( (IMAGE_WIDTH, IMAGE_HEIGHT) )
 is_loop_active = True
 redraw = True
 
-# Create x and y indices
-# x = np.linspace(0, 200, 201)
-# y = np.linspace(0, 200, 201)
-# x, y = np.meshgrid(x, y)
-
-#create data
-#data = twoD_Gaussian((x, y), 3, 100, 100, 20, 40, 0, 10)
-
-#print data.reshape(201, 201)
-
-# plot twoD_Gaussian data generated above
-#plt.figure()
-#plt.imshow(data.reshape(201, 201))
-#plt.colorbar()
-#plt.show()
+all_gaussians = np.zeros((600, 800))
 
 while is_loop_active:
 
@@ -79,12 +65,13 @@ while is_loop_active:
 
     if redraw:
         screen.fill(BLACK)
+        all_gaussians = np.zeros((600, 800))
 
         for i in xrange(random.randint(5,10)):
             size = random.randint(200, 400)
             #sigma = size * 0.09
             sigma = size * random.uniform(0.09, 0.2)
-            g = gauss2D(size, sigma, normalize=random.randint(50, 255))
+            g = gauss2D(size, sigma)
 
             # x = np.linspace(0, size, size)
             # y = np.linspace(0, size, size)
