@@ -1,12 +1,14 @@
-import numpy as np
+import os
+import sys
+sys.path.insert(0, '/Library/Python/2.7/site-packages/')
+
 from mayavi import mlab
-import scipy.signal
 from scipy.ndimage.filters import gaussian_filter
 from skimage.measure import structural_similarity as ssim
-import matplotlib.pyplot as plt
 import numpy as np
 from scipy.linalg import norm
-
+import inspect
+import matplotlib.pyplot as plt
 
 def mse(imageA, imageB):
     # the 'Mean Squared Error' between the two images is the
@@ -154,11 +156,15 @@ y = np.linspace(0, HEIGHT, 1)
 xx, yy = np.meshgrid(x, y)
 
 z = np.loadtxt('/tmp/magnetic_ground_truth.np')
+original = z
+original_255 = z
+original_255 *= 255.0/original_255.max()
+
 mlab.figure(bgcolor=(1,1,1), fgcolor=(0,0,0))
-mlab.surf(x, y, z, warp_scale='auto')
+mlab.surf(x, y, original_255, warp_scale='auto')
 mlab.colorbar(title='Original', orientation='vertical')
 
-original = z
+
 
 # z = np.loadtxt('/tmp/magnetic_white_noise.np')
 # mlab.figure(bgcolor=(1,1,1))
@@ -173,32 +179,45 @@ original = z
 #print "Zeros:       ", mse(original, np.zeros((600, 800)))
 #print "Ones:        ", mse(original, (np.zeros((600, 800)) + 1))
 
+#===--------------------===#
+#===     Metodology     ===#
+#===--------------------===#
 z = np.loadtxt('/tmp/magnetic_sampled.np')
 blurred = gaussian_filter(z, sigma=45)
+met_255 = blurred
+met_255 *= 255.0/met_255.max()
+
 mlab.figure(bgcolor=(1,1,1), fgcolor=(0,0,0))
-mlab.surf(x, y, blurred, warp_scale='auto')
+mlab.surf(x, y, met_255, warp_scale='auto')
 mlab.colorbar(title='Metodologia', orientation='vertical')
 
-print "Metodology:  "#, compare_images(original, blurred, "metodology")
-#n_m, n_0 = compare_images2(original, blurred)
-#print "Manhattan norm:", n_m, "/ per pixel:", n_m/ 800*600
-#print "Zero norm:", n_0, "/ per pixel:", n_0*1.0/ 800*600
-#print "Mean:", np.mean( original != blurred )
-#print "Sum:", np.sum( original - blurred )
-#print "psnr:", psnr(original, blurred, 1)
+print "Metodology:  "
 
+# s, g = ssim(original, blurred, gradient=True)
+# mlab.figure(bgcolor=(1,1,1), fgcolor=(0,0,0))
+# mlab.surf(x, y, g, warp_scale='auto')
+# mlab.colorbar(title='Metodologia gradient', orientation='vertical')
+
+#===--------------------===#
+#===       Ollero       ===#
+#===--------------------===#
 z = np.loadtxt('/tmp/magnetic_sampled_ollero.np')
 blurred = gaussian_filter(z, sigma=45)
+blur_255 = blurred
+blur_255 *= 255.0/blur_255.max()
+
 mlab.figure(bgcolor=(1,1,1))
-mlab.surf(x, y, blurred, warp_scale='auto')
+mlab.surf(x, y, blur_255, warp_scale='auto')
 mlab.colorbar(title='Ollero', orientation='vertical')
 
-print "Ollero:      "#, compare_images(original, blurred, "ollero")
-#n_m, n_0 = compare_images2(original, blurred)
-#print "Manhattan norm:", n_m, "/ per pixel:", n_m/ 800*600
-#print "Zero norm:", n_0, "/ per pixel:", n_0*1.0/ 800*600
-#print "Mean:", np.mean( original != blurred )
-#print "Sum:", np.sum( original - blurred )
-#print "psnr:", psnr(original, blurred, 1)
+print "Ollero:      "
+#
+# s, g = ssim(original, blurred, gradient=True)
+# mlab.figure(bgcolor=(1,1,1), fgcolor=(0,0,0))
+# mlab.surf(x, y, g, warp_scale='auto')
+# mlab.colorbar(title='Metodologia gradient', orientation='vertical')
+
 
 mlab.show()
+
+

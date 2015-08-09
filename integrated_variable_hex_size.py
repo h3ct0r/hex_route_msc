@@ -643,7 +643,7 @@ while simulation_done == False:
         elif (event.type == pygame.KEYDOWN) and (event.key == pygame.K_4):
             redraw = True
             new_robot_waypoints = robot_waypoints.copy()
-            new_robot_waypoints['amostral_space_file'] = '/tmp/magnetic_white_noise.np'
+            new_robot_waypoints['amostral_space_file'] = '/tmp/magnetic_ground_truth.np'
             new_robot_waypoints_json = json.dumps(new_robot_waypoints)
 
             print "new_robot_waypoints_json:", new_robot_waypoints_json
@@ -1516,7 +1516,7 @@ while simulation_done == False:
             ollero_json['k_number'] = number_of_robots
             ollero_json['start_point'] = trajectory_start_pt
             ollero_json['lines_width'] = lines_width
-            ollero_json['amostral_space_file'] = '/tmp/magnetic_white_noise.np'
+            ollero_json['amostral_space_file'] = '/tmp/magnetic_ground_truth.np'
 
             ollero_json_dump = json.dumps(ollero_json)
 

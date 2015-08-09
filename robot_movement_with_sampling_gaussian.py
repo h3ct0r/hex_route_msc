@@ -60,7 +60,8 @@ class Ball(object):
 
         if self.amostral_counter >= self.interval_sampling:
             print "Sampling at:", pos, "Value:", amostral_space[pos[1]][pos[0]]
-            self.amostral_samples[pos[1]][pos[0]] = amostral_space[pos[1]][pos[0]]
+
+            self.amostral_samples[pos[1]][pos[0]] = np.random.normal(amostral_space[pos[1]][pos[0]], 0.2, 1)[0]
             self.amostral_counter = 0
 
         # if self.remaining_battery < 0:
